@@ -22,3 +22,6 @@ def vflip_frame(frame):
 
 def hflip_frame(frame):
     return pygame.transform.flip(frame, 0, 1)
+
+def new_frame(size):
+    return pygame.Surface(size, SRCALPHA)

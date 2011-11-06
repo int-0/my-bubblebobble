@@ -24,7 +24,7 @@ class ObjectRegistry:
 
     def get_frame(self, oid, frame_number):
         self.__check_oid_exists(oid)
-        if frame_numer >= self.__registry[oid]:
+        if frame_number >= self.__registry[oid]:
             raise InvalidObject('Frame out of range: ' + str(frame_number))
         return self.__registry[oid][frame_number]
 
@@ -42,16 +42,20 @@ class ObjectRegistry:
             self.__registry[oid] = []
         self.__registry[oid].append(frame)
 
+    def load_frame(self, oid, filename):
+        frame = sdltools.load_image(filename)
+        self.add_frame(oid, frame)
+
     # Helper to make flips sprites
     def add_frame_vflip(self, oid, frame):
-        self.add_frame(oid, sdltools.vflip_frame(frame)
+        self.add_frame(oid, sdltools.vflip_frame(frame))
 
     # Helper to load sprite-sheets
     def load_sprites(self, oid, basename):
         for sprite_file in sdltools.get_filenames(basename):
             if not os.path.exists(sprite_file):
                 break
-            self.add_frame(oid, sdltools.load_image(sprite_file))
+            self.load_frame(oid, sprite_file)
 
     # Helper to load vfliped sprite-sheets
     def load_sprites_vflip(self, oid, basename):
